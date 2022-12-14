@@ -41,11 +41,11 @@ int main()
         -> Stałą WRONG_INDEX jeżeli podany w wywołaniu funkcji indeks jest spoza doswolonego zakresu.
         -> Stałą CORRECT jeżeli funkcja została wykonana poprawnie
 */
-int set_translation_starting_address(crg_t* ptr, uint8_t index, uint32_t upper_address, uint16_t lower_address)
+int set_outbound_translation_starting_address(crg_t* ptr, uint8_t index, uint32_t upper_address, uint16_t lower_address)
 {
     switch (index)
     {
-        case 0:
+        case MASTER_0:
             ptr->LCSR.OTSAU0 = upper_address; 
                 // ^ Rejestr przechowujący bardziej znaczącą część adresu.          
             ptr->LCSR.OTSAL0 = lower_address << 16;     
@@ -55,31 +55,31 @@ int set_translation_starting_address(crg_t* ptr, uint8_t index, uint32_t upper_a
                 w związku z tym należy argument lower_address przesunąć bitowo o 16 pozycji w lewo.
                 */
             break;
-        case 1:
+        case MASTER_1:
             ptr->LCSR.OTSAU1 = upper_address;
             ptr->LCSR.OTSAL1 = lower_address << 16;
             break;
-        case 2:
+        case MASTER_2:
             ptr->LCSR.OTSAU2 = upper_address;
             ptr->LCSR.OTSAL2 = lower_address << 16;
             break;
-        case 3:
+        case MASTER_3:
             ptr->LCSR.OTSAU3 = upper_address;
             ptr->LCSR.OTSAL3 = lower_address << 16;
             break;
-        case 4:
+        case MASTER_4:
             ptr->LCSR.OTSAU4 = upper_address;
             ptr->LCSR.OTSAL4 = lower_address << 16;
             break;
-        case 5:
+        case MASTER_5:
             ptr->LCSR.OTSAU5 = upper_address;
             ptr->LCSR.OTSAL5 = lower_address << 16;
             break;
-        case 6:
+        case MASTER_6:
             ptr->LCSR.OTSAU6 = upper_address;
             ptr->LCSR.OTSAL6 = lower_address << 16;
             break;
-        case 7:
+        case MASTER_7:
             ptr->LCSR.OTSAU7 = upper_address;
             ptr->LCSR.OTSAL7 = lower_address << 16;
             break;
@@ -108,11 +108,11 @@ int set_translation_starting_address(crg_t* ptr, uint8_t index, uint32_t upper_a
         -> Stałą WRONG_INDEX jeżeli podany w wywołaniu funkcji indeks jest spoza doswolonego zakresu.
         -> Stałą CORRECT jeżeli funkcja została wykonana poprawnie
 */
-int set_translation_ending_address(crg_t* ptr, uint8_t index, uint32_t upper_address, uint16_t lower_address)
+int set_outbound_translation_ending_address(crg_t* ptr, uint8_t index, uint32_t upper_address, uint16_t lower_address)
 {
     switch (index)
     {
-        case 0:
+        case MASTER_0:
             ptr->LCSR.OTEAU0 = upper_address;
                 // ^ Rejestr przechowujący bardziej znaczącą część adresu. 
             ptr->LCSR.OTEAL0 = lower_address << 16;
@@ -122,31 +122,31 @@ int set_translation_ending_address(crg_t* ptr, uint8_t index, uint32_t upper_add
                 w związku z tym należy argument lower_address przesunąć bitowo o 16 pozycji w lewo.
                 */
             break;
-        case 1:
+        case MASTER_1:
             ptr->LCSR.OTEAU1 = upper_address;
             ptr->LCSR.OTEAL1 = lower_address << 16;
             break;
-        case 2:
+        case MASTER_2:
             ptr->LCSR.OTEAU2 = upper_address;
             ptr->LCSR.OTEAL2 = lower_address << 16;
             break;
-        case 3:
+        case MASTER_3:
             ptr->LCSR.OTEAU3 = upper_address;
             ptr->LCSR.OTEAL3 = lower_address << 16;
             break;
-        case 4:
+        case MASTER_4:
             ptr->LCSR.OTEAU4 = upper_address;
             ptr->LCSR.OTEAL4 = lower_address << 16;
             break;
-        case 5:
+        case MASTER_5:
             ptr->LCSR.OTEAU5 = upper_address;
             ptr->LCSR.OTEAL5 = lower_address << 16;
             break;
-        case 6:
+        case MASTER_6:
             ptr->LCSR.OTEAU6 = upper_address;
             ptr->LCSR.OTEAL6 = lower_address << 16;
             break;
-        case 7:
+        case MASTER_7:
             ptr->LCSR.OTEAU7 = upper_address;
             ptr->LCSR.OTEAL7 = lower_address << 16;
             break;
@@ -176,11 +176,11 @@ int set_translation_ending_address(crg_t* ptr, uint8_t index, uint32_t upper_add
         -> Stałą WRONG_INDEX jeżeli podany w wywołaniu funkcji indeks jest spoza doswolonego zakresu.
         -> Stałą CORRECT jeżeli funkcja została wykonana poprawnie
 */
-int set_translation_offset(crg_t* ptr, uint8_t index, uint32_t upper_offset, uint16_t lower_offset)
+int set_outbound_translation_offset(crg_t* ptr, uint8_t index, uint32_t upper_offset, uint16_t lower_offset)
 {
     switch (index)
     {
-        case 0:
+        case MASTER_0:
             ptr->LCSR.OTOFU0 = upper_offset;
                 // ^ Rejestr przechowujący bardziej znaczącą część offsetu.
             ptr->LCSR.OTOFL0 = lower_offset << 16;
@@ -190,31 +190,31 @@ int set_translation_offset(crg_t* ptr, uint8_t index, uint32_t upper_offset, uin
                 w związku z tym należy argument lower_offset przesunąć bitowo o 16 pozycji w lewo.
                 */
             break;
-        case 1:
+        case MASTER_1:
             ptr->LCSR.OTOFU1 = upper_offset;
             ptr->LCSR.OTOFL1 = lower_offset << 16;
             break;
-        case 2:
+        case MASTER_2:
             ptr->LCSR.OTOFU2 = upper_offset;
             ptr->LCSR.OTOFL2 = lower_offset << 16;
             break;
-        case 3:
+        case MASTER_3:
             ptr->LCSR.OTOFU3 = upper_offset;
             ptr->LCSR.OTOFL3 = lower_offset << 16;
             break;
-        case 4:
+        case MASTER_4:
             ptr->LCSR.OTOFU4 = upper_offset;
             ptr->LCSR.OTOFL4 = lower_offset << 16;
             break;
-        case 5:
+        case MASTER_5:
             ptr->LCSR.OTOFU5 = upper_offset;
             ptr->LCSR.OTOFL5 = lower_offset << 16;
             break;
-        case 6:
+        case MASTER_6:
             ptr->LCSR.OTOFU6 = upper_offset;
             ptr->LCSR.OTOFL6 = lower_offset << 16;
             break;
-        case 7:
+        case MASTER_7:
             ptr->LCSR.OTOFU7 = upper_offset;
             ptr->LCSR.OTOFL7 = lower_offset << 16;
             break;
@@ -241,18 +241,18 @@ int set_translation_offset(crg_t* ptr, uint8_t index, uint32_t upper_offset, uin
         -> Stałą WRONG_INDEX jeżeli podany w wywołaniu funkcji indeks jest spoza doswolonego zakresu.
         -> Stałą CORRECT jeżeli funkcja została wykonana poprawnie
 */
-int set_translation_2eSST_broadcast_select(crg_t* ptr, uint8_t index, uint32_t broadcast_select_2eSST)
+int set_outbound_translation_2eSST_broadcast_select(crg_t* ptr, uint8_t index, uint32_t broadcast_select_2eSST)
 {
     switch (index)
     {
-        case 0:     ptr->LCSR.OTBS0 = broadcast_select_2eSST;   break;
-        case 1:     ptr->LCSR.OTBS1 = broadcast_select_2eSST;   break;
-        case 2:     ptr->LCSR.OTBS2 = broadcast_select_2eSST;   break;
-        case 3:     ptr->LCSR.OTBS3 = broadcast_select_2eSST;   break;
-        case 4:     ptr->LCSR.OTBS4 = broadcast_select_2eSST;   break;
-        case 5:     ptr->LCSR.OTBS5 = broadcast_select_2eSST;   break;
-        case 6:     ptr->LCSR.OTBS6 = broadcast_select_2eSST;   break;
-        case 7:     ptr->LCSR.OTBS7 = broadcast_select_2eSST;   break;
+        case MASTER_0:  ptr->LCSR.OTBS0 = broadcast_select_2eSST;   break;
+        case MASTER_1:  ptr->LCSR.OTBS1 = broadcast_select_2eSST;   break;
+        case MASTER_2:  ptr->LCSR.OTBS2 = broadcast_select_2eSST;   break;
+        case MASTER_3:  ptr->LCSR.OTBS3 = broadcast_select_2eSST;   break;
+        case MASTER_4:  ptr->LCSR.OTBS4 = broadcast_select_2eSST;   break;
+        case MASTER_5:  ptr->LCSR.OTBS5 = broadcast_select_2eSST;   break;
+        case MASTER_6:  ptr->LCSR.OTBS6 = broadcast_select_2eSST;   break;
+        case MASTER_7:  ptr->LCSR.OTBS7 = broadcast_select_2eSST;   break;
         default:    return WRONG_INDEX;
     }
 
@@ -290,24 +290,162 @@ int set_translation_2eSST_broadcast_select(crg_t* ptr, uint8_t index, uint32_t b
         -> Stałą WRONG_INDEX jeżeli podany w wywołaniu funkcji indeks jest spoza doswolonego zakresu.
         -> Stałą CORRECT jeżeli funkcja została wykonana poprawnie
 */
-int set_translation_attribute(crg_t* ptr, uint8_t index, uint32_t attribute)
+int set_outbound_translation_attribute(crg_t* ptr, uint8_t index, uint32_t attribute)
 {
     switch (index)
     {
-        case 0:     ptr->LCSR.OTAT0 = attribute;    break;
-        case 1:     ptr->LCSR.OTAT1 = attribute;    break;
-        case 2:     ptr->LCSR.OTAT2 = attribute;    break;
-        case 3:     ptr->LCSR.OTAT3 = attribute;    break;
-        case 4:     ptr->LCSR.OTAT4 = attribute;    break;
-        case 5:     ptr->LCSR.OTAT5 = attribute;    break;
-        case 6:     ptr->LCSR.OTAT6 = attribute;    break;
-        case 7:     ptr->LCSR.OTAT7 = attribute;    break;
+        case MASTER_0:  ptr->LCSR.OTAT0 = attribute;    break;
+        case MASTER_1:  ptr->LCSR.OTAT1 = attribute;    break;
+        case MASTER_2:  ptr->LCSR.OTAT2 = attribute;    break;
+        case MASTER_3:  ptr->LCSR.OTAT3 = attribute;    break;
+        case MASTER_4:  ptr->LCSR.OTAT4 = attribute;    break;
+        case MASTER_5:  ptr->LCSR.OTAT5 = attribute;    break;
+        case MASTER_6:  ptr->LCSR.OTAT6 = attribute;    break;
+        case MASTER_7:  ptr->LCSR.OTAT7 = attribute;    break;
         default:    return WRONG_INDEX;
     }
 
+    return CORRECT;
+}
+
+
+
+
+
+
+
+int set_enable(crg_t* ptr, uint8_t index)
+{
+    uint32_t bufor;
+
+    switch (index)
+    {
+        case MASTER_0:
+            bufor = ptr->LCSR.OTAT0;
+            ptr->LCSR.OTAT0 = bufor | EN_SET;   break;
+        case MASTER_1:
+            bufor = ptr->LCSR.OTAT1;
+            ptr->LCSR.OTAT1 = bufor | EN_SET;   break;
+        case MASTER_2:
+            bufor = ptr->LCSR.OTAT2;
+            ptr->LCSR.OTAT2 = bufor | EN_SET;   break;
+        case MASTER_3:
+            bufor = ptr->LCSR.OTAT3;
+            ptr->LCSR.OTAT3 = bufor | EN_SET;   break;
+        case MASTER_4:
+            bufor = ptr->LCSR.OTAT4;
+            ptr->LCSR.OTAT4 = bufor | EN_SET;   break;
+        case MASTER_5:
+            bufor = ptr->LCSR.OTAT5;
+            ptr->LCSR.OTAT5 = bufor | EN_SET;   break;
+        case MASTER_6:
+            bufor = ptr->LCSR.OTAT6;
+            ptr->LCSR.OTAT6 = bufor | EN_SET;   break;
+        case MASTER_7:
+            bufor = ptr->LCSR.OTAT7;
+            ptr->LCSR.OTAT7 = bufor | EN_SET;   break;
+
+        case SLAVE_0:
+            bufor = ptr->LCSR.ITAT0;
+            ptr->LCSR.ITAT0 = bufor | EN_SET;   break;
+        case SLAVE_1:
+            bufor = ptr->LCSR.ITAT1;
+            ptr->LCSR.ITAT1 = bufor | EN_SET;   break;
+        case SLAVE_2:
+            bufor = ptr->LCSR.ITAT2;
+            ptr->LCSR.ITAT2 = bufor | EN_SET;   break;
+        case SLAVE_3:
+            bufor = ptr->LCSR.ITAT3;
+            ptr->LCSR.ITAT3 = bufor | EN_SET;   break;
+        case SLAVE_4:
+            bufor = ptr->LCSR.ITAT4;
+            ptr->LCSR.ITAT4 = bufor | EN_SET;   break;
+        case SLAVE_5:
+            bufor = ptr->LCSR.ITAT5;
+            ptr->LCSR.ITAT5 = bufor | EN_SET;   break;
+        case SLAVE_6:
+            bufor = ptr->LCSR.ITAT6;
+            ptr->LCSR.ITAT6 = bufor | EN_SET;   break;
+        case SLAVE_7:
+            bufor = ptr->LCSR.ITAT7;
+            ptr->LCSR.ITAT7 = bufor | EN_SET;   break;
+        default:    return WRONG_INDEX;
+    }
 
     return CORRECT;
 }
+
+
+
+int clr_enable(crg_t* ptr, uint8_t index)
+{
+    uint32_t bufor;
+
+    switch (index)
+    {
+        case MASTER_0:
+            bufor = ptr->LCSR.OTAT0;
+            ptr->LCSR.OTAT0 = bufor & (~EN_SET);    break;
+        case MASTER_1:
+            bufor = ptr->LCSR.OTAT1;
+            ptr->LCSR.OTAT1 = bufor & (~EN_SET);    break;
+        case MASTER_2:
+            bufor = ptr->LCSR.OTAT2;
+            ptr->LCSR.OTAT2 = bufor & (~EN_SET);    break;
+        case MASTER_3:
+            bufor = ptr->LCSR.OTAT3;
+            ptr->LCSR.OTAT3 = bufor & (~EN_SET);    break;
+        case MASTER_4:
+            bufor = ptr->LCSR.OTAT4;
+            ptr->LCSR.OTAT4 = bufor & (~EN_SET);    break;
+        case MASTER_5:
+            bufor = ptr->LCSR.OTAT5;
+            ptr->LCSR.OTAT5 = bufor & (~EN_SET);    break;
+        case MASTER_6:
+            bufor = ptr->LCSR.OTAT6;
+            ptr->LCSR.OTAT6 = bufor & (~EN_SET);    break;
+        case MASTER_7:
+            bufor = ptr->LCSR.OTAT7;
+            ptr->LCSR.OTAT7 = bufor & (~EN_SET);    break;
+
+        case SLAVE_0:
+            bufor = ptr->LCSR.ITAT0;
+            ptr->LCSR.ITAT0 = bufor & (~EN_SET);    break;
+        case SLAVE_1:
+            bufor = ptr->LCSR.ITAT1;
+            ptr->LCSR.ITAT1 = bufor & (~EN_SET);    break;
+        case SLAVE_2:
+            bufor = ptr->LCSR.ITAT2;
+            ptr->LCSR.ITAT2 = bufor & (~EN_SET);    break;
+        case SLAVE_3:
+            bufor = ptr->LCSR.ITAT3;
+            ptr->LCSR.ITAT3 = bufor & (~EN_SET);    break;
+        case SLAVE_4:
+            bufor = ptr->LCSR.ITAT4;
+            ptr->LCSR.ITAT4 = bufor & (~EN_SET);    break;
+        case SLAVE_5:
+            bufor = ptr->LCSR.ITAT5;
+            ptr->LCSR.ITAT5 = bufor & (~EN_SET);    break;
+        case SLAVE_6:
+            bufor = ptr->LCSR.ITAT6;
+            ptr->LCSR.ITAT6 = bufor & (~EN_SET);    break;
+        case SLAVE_7:
+            bufor = ptr->LCSR.ITAT7;
+            ptr->LCSR.ITAT7 = bufor & (~EN_SET);    break;
+        default:    return WRONG_INDEX;
+    }
+
+    return CORRECT;
+}
+
+
+
+
+
+
+
+
+
 
 
 
