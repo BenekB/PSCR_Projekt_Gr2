@@ -31,21 +31,36 @@
 
 
 //  INDEX OF MASTER CANAL
-#define     MASTER_0        0
-#define     MASTER_1        1
-#define     MASTER_2        2
-#define     MASTER_3        3
-#define     MASTER_4        4
-#define     MASTER_5        5
-#define     MASTER_6        6
-#define     MASTER_7        7
+#define     MASTER_0        10
+#define     MASTER_1        11
+#define     MASTER_2        12
+#define     MASTER_3        13
+#define     MASTER_4        14
+#define     MASTER_5        15
+#define     MASTER_6        16
+#define     MASTER_7        17
     /* ^ 
     Dostępnych jest 8 kanałów typu Master.
     W wywołaniu funkcji zawsze musimy podać do którego się odnosimy.
     */
 
 
-// TRANSLATION ATTRIBUTES
+//  INDEX OF SLAVE CANAL
+#define     SLAVE_0        20
+#define     SLAVE_1        21
+#define     SLAVE_2        22
+#define     SLAVE_3        23
+#define     SLAVE_4        24
+#define     SLAVE_5        25
+#define     SLAVE_6        26
+#define     SLAVE_7        27
+    /* ^ 
+    Dostępnych jest 8 kanałów typu Slave.
+    W wywołaniu funkcji zawsze musimy podać do którego się odnosimy.
+    */
+
+
+// OUTBOUND TRANSLATION ATTRIBUTES
     /* 
     Aby otrzymać 32-bitową daną wpisywaną do rejestru atrybutów translacji
     musimy wykonać operację sumy logicznej poniżej zdefiniowanych atrybutów.
@@ -151,6 +166,65 @@
     */
 
 
+// VME MASTER CONTROL REGISTER FLAGS
+    /* 
+    Aby otrzymać 32-bitową daną wpisywaną do rejestru kontrolnego kanału Master
+    musimy wykonać operację sumy logicznej poniżej zdefiniowanych flag.
+    Na przykład chcąc ustawić bit EN, szybkość transmicji na 160 MB/s oraz tryb
+    adresowania na A24 musimy wykonać następującą operację:
+        EN_SET | TR_RATE_160 | ADMODE_A24 
+    Następnie wynik powyższej sumy logicznej przekazać do funkcji ustawiającej
+    rejestr atrybutów translacji.
+    */
+#define     VS_SET      0b00000 1 00000000000000000000000000
+#define     VS_CLR      0b00000 0 00000000000000000000000000
 
+
+#define     DWB_SET     0b0000000 1 000000000000000000000000
+#define     DWB_CLR     0b0000000 0 000000000000000000000000
+
+
+#define     RMWEN_SET       0b00000000000 1 00000000000000000000
+#define     RMWEN_CLR       0b00000000000 0 00000000000000000000
+
+
+#define     A64DS_SET       0b000000000000000 1 0000000000000000
+#define     A64DS_CLR       0b000000000000000 0 0000000000000000
+
+
+#define     VTOFF       0b00000000000000000 000 000000000000
+#define     VTOFF       0b00000000000000000 000 000000000000
+#define     VTOFF       0b00000000000000000 000 000000000000
+#define     VTOFF       0b00000000000000000 000 000000000000
+#define     VTOFF       0b00000000000000000 000 000000000000
+#define     VTOFF       0b00000000000000000 000 000000000000
+#define     VTOFF       0b00000000000000000 000 000000000000
+#define     VTOFF       0b00000000000000000 000 000000000000
+
+
+#define     VTON        0b000000000000000000000 000 00000000
+#define     VTON        0b000000000000000000000 000 00000000
+#define     VTON        0b000000000000000000000 000 00000000
+#define     VTON        0b000000000000000000000 000 00000000
+#define     VTON        0b000000000000000000000 000 00000000
+#define     VTON        0b000000000000000000000 000 00000000
+#define     VTON        0b000000000000000000000 000 00000000
+#define     VTON        0b000000000000000000000 000 00000000
+#define     VTON        0b000000000000000000000 000 00000000
+
+
+#define     VREL        0b000000000000000000000000000 00 000
+#define     VREL        0b000000000000000000000000000 00 000
+#define     VREL        0b000000000000000000000000000 00 000
+#define     VREL        0b000000000000000000000000000 00 000
+
+
+#define     VFAIR        0b00000000000000000000000000000 0 00
+
+
+#define     VREQL_00    0b000000000000000000000000000000 00
+#define     VREQL_01    0b000000000000000000000000000000 01
+#define     VREQL_10    0b000000000000000000000000000000 10
+#define     VREQL_11    0b000000000000000000000000000000 11
 
 
