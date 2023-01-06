@@ -166,65 +166,130 @@
     */
 
 
-// VME MASTER CONTROL REGISTER FLAGS
+
+
+
+// INBOUND TRANSLATION ATTRIBUTES
     /* 
-    Aby otrzymać 32-bitową daną wpisywaną do rejestru kontrolnego kanału Master
-    musimy wykonać operację sumy logicznej poniżej zdefiniowanych flag.
-    Na przykład chcąc ustawić bit EN, szybkość transmicji na 160 MB/s oraz tryb
+    Aby otrzymać 32-bitową daną wpisywaną do rejestru atrybutów translacji
+    musimy wykonać operację sumy logicznej poniżej zdefiniowanych atrybutów.
+    Na przykład chcąc ustawić bit EN, rozmiar FIFO na 128 Bajtów oraz przestrzeń
     adresowania na A24 musimy wykonać następującą operację:
-        EN_SET | TR_RATE_160 | ADMODE_A24 
+       SEN_SET | VFS_128 | AS_24 
     Następnie wynik powyższej sumy logicznej przekazać do funkcji ustawiającej
     rejestr atrybutów translacji.
     */
-#define     VS_SET      0b00000 1 00000000000000000000000000
-#define     VS_CLR      0b00000 0 00000000000000000000000000
+#define     SEN_SET     0b1 0000000000000000000000000000000
+#define     SEN_CLR     0b0 0000000000000000000000000000000  
+    /* ^ 
+    EN (Enable) -> SEN (Slave Enable)
+    If set, the corresponding VME Slave window is enabled. 
+    */
+#define     TH_SET      0b0000000000000 1 000000000000000000
+#define     TH_CLR      0b0000000000000 0 000000000000000000
+    /* ^ 
+    TH (Threshold) 
+    This field sets a threshold for when read-ahead prefetching resumes. If set,
+    prefetching resumes once the FIFO is half empty. If cleared, prefetching
+    resumes once the FIFO is completely empty.
+    */ 
+#define     VFS_64      0b00000000000000 00 0000000000000000
+#define     VFS_128     0b00000000000000 01 0000000000000000
+#define     VFS_256     0b00000000000000 10 0000000000000000
+#define     VFS_512     0b00000000000000 11 0000000000000000  
+    /* ^ 
+    VFS (Virtual FIFO Size)
+    This field is used to set the FIFO size for inbound prefetch reads.
+    The selection of a virtual FIFO size affects the number of initial prefetch
+    read cycles and the number of subsequent prefetch read cycles.
+    VFS_64 -> 64 Bytes
+    VFS_128 -> 128 Bytes
+    VFS_256 -> 256 Bytes
+    VFS_512 -> 512 Bytes
+    */  
+#define     SST_160     0b000000000000000000 000 00000000000 
+#define     SST_267     0b000000000000000000 001 00000000000
+#define     SST_320     0b000000000000000000 010 00000000000   
+    /* ^ 
+    2eSSTM (2eSST Mode)
+    This flag define the 2eSST transfer rates the corresponding VME Slave responds to.
+    If SST_320 is enabled, the VME Slave also responds to SST_267 and SST_160.
+    If SST_267 is enabled, the VME Slave also responds to SST_160.
+    SST_160 -> 160 MB/s
+    SST_267 -> 267 MB/s
+    SST_320 -> 320 MB/s
+    */
+#define     eSSTB_SET       0b000000000000000000000 1 0000000000 
+#define     eSSTB_CLR       0b000000000000000000000 0 0000000000
+    /* ^ 
+    2eSSTB
+    If set, the corresponding VME Slave responds to 2eSST broadcast cycles.
+    */
+#define     eSST_SET    0b0000000000000000000000 1 000000000 
+#define     eSST_CLR    0b0000000000000000000000 0 000000000
+    /* ^ 
+    2eSST
+    If set, the corresponding VME Slave responds to standard 2eSST cycles.
+    */
+#define     eVME_SET    0b00000000000000000000000 1 00000000 
+#define     eVME_CLR    0b00000000000000000000000 0 00000000
+    /* ^ 
+    2eVME
+    If set, the corresponding VME Slave responds to 2eVME cycles.
+    */
+#define     MBLT_SET    0b000000000000000000000000 1 0000000 
+#define     MBLT_CLR    0b000000000000000000000000 0 0000000
+    /* ^ 
+    MBLT
+    If set, the corresponding VME Slave responds to MBLT cycles.
+    */
+#define     BLT_SET     0b0000000000000000000000000 1 000000 
+#define     BLT_CLR     0b0000000000000000000000000 0 000000
+    /* ^ 
+    BLT
+    If set, the corresponding VME Slave responds to BLT cycles.
+    */
+#define     AS_16      0b0000000000000000000000000 000 0000
+#define     AS_24      0b0000000000000000000000000 001 0000
+#define     AS_32      0b0000000000000000000000000 010 0000
+#define     AS_64      0b0000000000000000000000000 100 0000
+    /* ^ 
+    AS (Address Space)
+    These bits define the address space the corresponding VME Slave responds to.
+    AS_16 -> Address Space A16
+    AS_24 -> Address Space A24
+    AS_32 -> Address Space A32
+    AS_63 -> Address Space A64
+    */
+#define     SUPR_SET    0b0000000000000000000000000000 1 000 
+#define     SUPR_CLR    0b0000000000000000000000000000 0 000
+    /* ^ 
+    SUPR (Supervisor)
+    If set, the corresponding VME Slave is enabled to respond to VMEbus
+    supervisor access cycles. 
+    */
+#define     NPRIV_SET       0b00000000000000000000000000000 1 00 
+#define     NPRIV_CLR       0b00000000000000000000000000000 0 00
+    /* ^ 
+    NPRIV (Non-privileged)
+    If set, the corresponding VME Slave is enabled to respond to
+    non-privileged access cycles. 
+    */
+#define     PGM_SET     0b000000000000000000000000000000 1 0 
+#define     PGM_CLR     0b000000000000000000000000000000 0 0
+    /* ^ 
+    PGM (Program)
+    If set, the corresponding VME Slave is enabled to respond to
+    VMEbus program access cycles. 
+    */
+#define     DATA_SET    0b0000000000000000000000000000000 1 
+#define     DATA_CLR    0b0000000000000000000000000000000 0
+    /* ^ 
+    DATA (Data)
+    If set, the corresponding VME Slave is enabled to respond to
+    VMEbus data access cycles. 
+    */
 
 
-#define     DWB_SET     0b0000000 1 000000000000000000000000
-#define     DWB_CLR     0b0000000 0 000000000000000000000000
-
-
-#define     RMWEN_SET       0b00000000000 1 00000000000000000000
-#define     RMWEN_CLR       0b00000000000 0 00000000000000000000
-
-
-#define     A64DS_SET       0b000000000000000 1 0000000000000000
-#define     A64DS_CLR       0b000000000000000 0 0000000000000000
-
-
-#define     VTOFF       0b00000000000000000 000 000000000000
-#define     VTOFF       0b00000000000000000 000 000000000000
-#define     VTOFF       0b00000000000000000 000 000000000000
-#define     VTOFF       0b00000000000000000 000 000000000000
-#define     VTOFF       0b00000000000000000 000 000000000000
-#define     VTOFF       0b00000000000000000 000 000000000000
-#define     VTOFF       0b00000000000000000 000 000000000000
-#define     VTOFF       0b00000000000000000 000 000000000000
-
-
-#define     VTON        0b000000000000000000000 000 00000000
-#define     VTON        0b000000000000000000000 000 00000000
-#define     VTON        0b000000000000000000000 000 00000000
-#define     VTON        0b000000000000000000000 000 00000000
-#define     VTON        0b000000000000000000000 000 00000000
-#define     VTON        0b000000000000000000000 000 00000000
-#define     VTON        0b000000000000000000000 000 00000000
-#define     VTON        0b000000000000000000000 000 00000000
-#define     VTON        0b000000000000000000000 000 00000000
-
-
-#define     VREL        0b000000000000000000000000000 00 000
-#define     VREL        0b000000000000000000000000000 00 000
-#define     VREL        0b000000000000000000000000000 00 000
-#define     VREL        0b000000000000000000000000000 00 000
-
-
-#define     VFAIR        0b00000000000000000000000000000 0 00
-
-
-#define     VREQL_00    0b000000000000000000000000000000 00
-#define     VREQL_01    0b000000000000000000000000000000 01
-#define     VREQL_10    0b000000000000000000000000000000 10
-#define     VREQL_11    0b000000000000000000000000000000 11
 
 
