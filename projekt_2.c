@@ -4,10 +4,6 @@
 #include <stdint.h>
 #include "tsi148.h"
 
-// kończymy tym, że generujemy wirtualny wskaźnik do mastera
-// wygenerować wirtualny wskaźnik do mastera podobnie jak pierwsza grupa
-// korzystać z memory map device
-
 
 /*
     Skróty i odniesienia wykorzystywane w kodzie:
