@@ -4,6 +4,9 @@
 #include <stdint.h>
 #include "tsi148.h"
 
+// kończymy tym, że generujemy wirtualny wskaźnik do mastera
+// wygenerować wirtualny wskaźnik do mastera podobnie jak pierwsza grupa
+// korzystać z memory map device
 
 
 /*
@@ -94,6 +97,86 @@ int set_outbound_translation_starting_address(crg_t* ptr, uint8_t index, uint32_
 
 
 /*
+    Funkcja ustawia adres początkowy określonego obszaru pamięci związanego z mapowaniem przestrzeni magistrali
+    VMEbus na magistralę PCI/X. (PM s.229-230)
+
+    ptr ->  Wskaźnik na strukturę danych mapującą układ rejestrów pamięci mostka tsi148.
+            Do pól tej sstruktury będziemy się odwoływać aby ustawić wartości poszczególnych rejestrów.
+    index ->    Numer kanału slave, który chcemy ustawić. Poprawne wartości ustawiane są za pomocą stałych z podanej listy:
+                [SLAVE_0, SLAVE_1, SLAVE_2, SLAVE_3, SLAVE_4, SLAVE_5, SLAVE_6, SLAVE_7]
+    upper_address ->    32 bardziej znaczące bity adresu.
+    lower_address ->    32 mniej znaczące bity adresu. W zależności od szerokości magistrali VMEbus wykorzystywane są 
+                        różne zakresy bitów spośród 32-bitowej danej. Szczegóły w definicji funkcji oraz w PM na stronie 230.
+
+    Funkcja zwraca:
+        -> Stałą WRONG_INDEX jeżeli podany w wywołaniu funkcji indeks jest spoza doswolonego zakresu.
+        -> Stałą CORRECT jeżeli funkcja została wykonana poprawnie
+*/
+int set_inbound_translation_starting_address(crg_t* ptr, uint8_t index, uint32_t upper_address, uint32_t lower_address)
+{
+    switch (index)
+    {
+        case SLAVE_0:
+            ptr->LCSR.ITSAU0 = upper_address; 
+                // ^ Rejestr przechowujący bardziej znaczącą część adresu.          
+            ptr->LCSR.ITSAL0 = lower_address;     
+                /*
+                Rejestr przechowujący mniej znaczącą część adresu.
+
+                Jeżeli magistrala adresowa VMEbus jest 64-bitowa lub 32-bitowa
+                to mniej znaczące bity adresu początkowego od 31 do 16 są porównywane
+                do bitów od 31 do 16 adresu magistrali VMEbus.
+
+                Jeżeli magistrala adresowa VMEbus jest 24-bitowa, to mniej
+                znaczące bity adresu początkowego od 23 do 12 są porównywane
+                do bitów od 23 do 12 adresu magistrali VMEbus.
+
+                Jeżeli magistrala adresowa VMEbus jest 16-bitowa, to mniej
+                znaczące bity adresu początkowego od 15 do 4 są porównywane
+                do bitów od 15 do 4 adresu magistrali VMEbus.
+
+                Szczegóły w PM s. 230.
+                */
+            break;
+        case SLAVE_1:
+            ptr->LCSR.ITSAU1 = upper_address;
+            ptr->LCSR.ITSAL1 = lower_address;
+            break;
+        case SLAVE_2:
+            ptr->LCSR.ITSAU2 = upper_address;
+            ptr->LCSR.ITSAL2 = lower_address;
+            break;
+        case SLAVE_3:
+            ptr->LCSR.ITSAU3 = upper_address;
+            ptr->LCSR.ITSAL3 = lower_address;
+            break;
+        case SLAVE_4:
+            ptr->LCSR.ITSAU4 = upper_address;
+            ptr->LCSR.ITSAL4 = lower_address;
+            break;
+        case SLAVE_5:
+            ptr->LCSR.ITSAU5 = upper_address;
+            ptr->LCSR.ITSAL5 = lower_address;
+            break;
+        case SLAVE_6:
+            ptr->LCSR.ITSAU6 = upper_address;
+            ptr->LCSR.ITSAL6 = lower_address;
+            break;
+        case SLAVE_7:
+            ptr->LCSR.ITSAU7 = upper_address;
+            ptr->LCSR.ITSAL7 = lower_address;
+            break;
+        default:
+            return WRONG_INDEX;
+    }
+
+
+    return CORRECT;
+}
+
+
+
+/*
     Funkcja ustawia adres końcowy określonegoo obszaru pamięci na magistrali PCI/X, który jest wykorzystywany
     w celu uzyskania dostępu do zasobów magistrali VMEbus. (PM s. 186-187)
 
@@ -149,6 +232,86 @@ int set_outbound_translation_ending_address(crg_t* ptr, uint8_t index, uint32_t 
         case MASTER_7:
             ptr->LCSR.OTEAU7 = upper_address;
             ptr->LCSR.OTEAL7 = lower_address << 16;
+            break;
+        default:
+            return WRONG_INDEX;
+    }
+
+
+    return CORRECT;
+}
+
+
+
+/*
+    Funkcja ustawia adres końcowy określonego obszaru pamięci związanego z mapowaniem przestrzeni magistrali
+    VMEbus na magistralę PCI/X. (PM s. 231-232)
+
+    ptr ->  Wskaźnik na strukturę danych mapującą układ rejestrów pamięci mostka tsi148.
+            Do pól tej sstruktury będziemy się odwoływać aby ustawić wartości poszczególnych rejestrów.
+    index ->    Numer kanału slave, który chcemy ustawić. Poprawne wartości ustawiane są za pomocą stałych z podanej listy:
+                [SLAVE_0, SLAVE_1, SLAVE_2, SLAVE_3, SLAVE_4, SLAVE_5, SLAVE_6, SLAVE_7]
+    upper_address ->    32 bardziej znaczące bity adresu.
+    lower_address ->    32 mniej znaczące bity adresu. W zależności od szerokości magistrali VMEbus wykorzystywane są 
+                        różne zakresy bitów spośród 32-bitowej danej. Szczegóły w definicji funkcji oraz w PM na stronie 232.
+
+    Funkcja zwraca:
+        -> Stałą WRONG_INDEX jeżeli podany w wywołaniu funkcji indeks jest spoza doswolonego zakresu.
+        -> Stałą CORRECT jeżeli funkcja została wykonana poprawnie
+*/
+int set_inbound_translation_ending_address(crg_t* ptr, uint8_t index, uint32_t upper_address, uint32_t lower_address)
+{
+    switch (index)
+    {
+        case SLAVE_0:
+            ptr->LCSR.ITEAU0 = upper_address; 
+                // ^ Rejestr przechowujący bardziej znaczącą część adresu.          
+            ptr->LCSR.ITEAL0 = lower_address;     
+                /*
+                Rejestr przechowujący mniej znaczącą część adresu.
+
+                Jeżeli magistrala adresowa VMEbus jest 64-bitowa lub 32-bitowa
+                to mniej znaczące bity adresu końcowego od 31 do 16 są porównywane
+                do bitów od 31 do 16 adresu magistrali VMEbus.
+
+                Jeżeli magistrala adresowa VMEbus jest 24-bitowa, to mniej
+                znaczące bity adresu końcowego od 23 do 12 są porównywane
+                do bitów od 23 do 12 adresu magistrali VMEbus.
+
+                Jeżeli magistrala adresowa VMEbus jest 16-bitowa, to mniej
+                znaczące bity adresu końcowego od 15 do 4 są porównywane
+                do bitów od 15 do 4 adresu magistrali VMEbus.
+
+                Szczegóły w PM s. 232.
+                */
+            break;
+        case SLAVE_1:
+            ptr->LCSR.ITEAU1 = upper_address;
+            ptr->LCSR.ITEAL1 = lower_address;
+            break;
+        case SLAVE_2:
+            ptr->LCSR.ITEAU2 = upper_address;
+            ptr->LCSR.ITEAL2 = lower_address;
+            break;
+        case SLAVE_3:
+            ptr->LCSR.ITEAU3 = upper_address;
+            ptr->LCSR.ITEAL3 = lower_address;
+            break;
+        case SLAVE_4:
+            ptr->LCSR.ITEAU4 = upper_address;
+            ptr->LCSR.ITEAL4 = lower_address;
+            break;
+        case SLAVE_5:
+            ptr->LCSR.ITEAU5 = upper_address;
+            ptr->LCSR.ITEAL5 = lower_address;
+            break;
+        case SLAVE_6:
+            ptr->LCSR.ITEAU6 = upper_address;
+            ptr->LCSR.ITEAL6 = lower_address;
+            break;
+        case SLAVE_7:
+            ptr->LCSR.ITEAU7 = upper_address;
+            ptr->LCSR.ITEAL7 = lower_address;
             break;
         default:
             return WRONG_INDEX;
@@ -217,6 +380,84 @@ int set_outbound_translation_offset(crg_t* ptr, uint8_t index, uint32_t upper_of
         case MASTER_7:
             ptr->LCSR.OTOFU7 = upper_offset;
             ptr->LCSR.OTOFL7 = lower_offset << 16;
+            break;
+        default:
+            return WRONG_INDEX;
+    }
+
+
+    return CORRECT;
+}
+
+
+
+/*
+    Funkcja ustawia offset translacji adresu związany z mapowaniem przestrzeni adresowej magistrali
+    VMEbus na przestrzeń adresową magistrali PCI/X. (PM s. 233-234)
+
+    ptr ->  Wskaźnik na strukturę danych mapującą układ rejestrów pamięci mostka tsi148.
+            Do pól tej sstruktury będziemy się odwoływać aby ustawić wartości poszczególnych rejestrów.
+    index ->    Numer kanału slave, który chcemy ustawić. Poprawne wartości ustawiane są za pomocą stałych z podanej listy:
+                [SLAVE_0, SLAVE_1, SLAVE_2, SLAVE_3, SLAVE_4, SLAVE_5, SLAVE_6, SLAVE_7]
+    upper_offset ->    32 bardziej znaczące bity offsetu
+    lower_offset ->    32 mniej znaczące bity offsetu. W zależności od szerokości magistrali VMEbus wykorzystywane są 
+                       różne zakresy bitów spośród 32-bitowej danej. Szczegóły w definicji funkcji oraz w PM na stronie 234.
+
+    Funkcja zwraca:
+        -> Stałą WRONG_INDEX jeżeli podany w wywołaniu funkcji indeks jest spoza doswolonego zakresu.
+        -> Stałą CORRECT jeżeli funkcja została wykonana poprawnie
+*/
+int set_inbound_translation_offset(crg_t* ptr, uint8_t index, uint32_t upper_offset, uint32_t lower_offset)
+{
+    switch (index)
+    {
+        case SLAVE_0:
+            ptr->LCSR.ITOFU0 = upper_address; 
+                // ^ Rejestr przechowujący bardziej znaczącą część offsetu.          
+            ptr->LCSR.ITOFL0 = lower_address;     
+                /*
+                Rejestr przechowujący mniej znaczącą część offsetu. Jest ona dodawana
+                do mniej znaczącej części adresu magistrali VMEbus w celu wyznaczenia 
+                odpowiadający adres na magistrali PCI/X.
+
+                Jeżeli magistrala adresowa VMEbus jest 24-bitowa, to bity wewnętrzne adresu
+                magistrali VMEbus od 31 do 24 są zerowane a następnie bity offsetu od 31 do 12
+                są dodawane.
+
+                Jeżeli magistrala adresowa VMEbus jest 16-bitowa, to bity wewnętrzne adresu
+                magistrali VMEbus od 31 do 16 są zerowane a następnie bity offsetu od 31 do 4
+                są dodawane.
+
+                Szczegóły w PM s. 234.
+                */
+            break;
+        case SLAVE_1:
+            ptr->LCSR.ITOFU1 = upper_address;
+            ptr->LCSR.ITOFL1 = lower_address;
+            break;
+        case SLAVE_2:
+            ptr->LCSR.ITOFU2 = upper_address;
+            ptr->LCSR.ITOFL2 = lower_address;
+            break;
+        case SLAVE_3:
+            ptr->LCSR.ITOFU3 = upper_address;
+            ptr->LCSR.ITOFL3 = lower_address;
+            break;
+        case SLAVE_4:
+            ptr->LCSR.ITOFU4 = upper_address;
+            ptr->LCSR.ITOFL4 = lower_address;
+            break;
+        case SLAVE_5:
+            ptr->LCSR.ITOFU5 = upper_address;
+            ptr->LCSR.ITOFL5 = lower_address;
+            break;
+        case SLAVE_6:
+            ptr->LCSR.ITOFU6 = upper_address;
+            ptr->LCSR.ITOFL6 = lower_address;
+            break;
+        case SLAVE_7:
+            ptr->LCSR.ITOFU7 = upper_address;
+            ptr->LCSR.ITOFL7 = lower_address;
             break;
         default:
             return WRONG_INDEX;
@@ -310,10 +551,75 @@ int set_outbound_translation_attribute(crg_t* ptr, uint8_t index, uint32_t attri
 
 
 
+/*
+    Funkcja ustawia rejestry związane z mapowaniem przestrzeni magistrali VMEbus
+    na przestrzeń magistrali PCI/X (PM s. 235-238)
+
+    ptr ->  Wskaźnik na strukturę danych mapującą układ rejestrów pamięci mostka tsi148.
+            Do pól tej sstruktury będziemy się odwoływać aby ustawić wartości poszczególnych rejestrów.
+    index ->    Numer kanału slave, który chcemy ustawić. Poprawne wartości ustawiane są za pomocą stałych z podanej listy:
+                [SLAVE_0, SLAVE_1, SLAVE_2, SLAVE_3, SLAVE_4, SLAVE_5, SLAVE_6, SLAVE_7]
+    attribute ->    32 bity wpisywane do odpowiedniego rejestru atrybutów w celu jego ustawienia. Możemy uzyskać pożądany ciąg 
+                    binarny poprzez wygenerowanie sumy logicznej zdefiniowanych stałych odpowiadających konkretnym atrybutom.
+                    Na przykład chcąc ustawić bit EN, rozmiar FIFO na 128 Bajtów oraz przestrzeń adresowania na A24 musimy 
+                    w miejsce argumentu attribute podać attribute = (SEN_SET | VFS_128 | AS_24)
+        
+
+    Dostępne stałe generujące argument attribute (w kolejnych liniach znajdują się flagi ustawiające jedną wartość, możemy wykorzystać
+    tylko jedną flagę z danej listy):
+        [SEN_SET, SEN_CLR]
+        [TH_SET, TH_CLR]
+        [VFS_64, VFS_128, VFS_256, VFS_512]
+        [SST_160, SST_267, SST_320]
+        [eSSTB_SET, eSSTB_CLR]
+        [eSST_SET, eSST_CLR]
+        [eVME_SET, eVME_CLR]
+        [MBLT_SET, MBLT_CLR]
+        [BLT_SET, BLT_CLR]
+        [AS_16, AS_24, AS_32, AS_64]
+        [SUPR_SET, SUPR_CLR]
+        [NPRIV_SET, NPRIV_CLR]
+        [PGM_SET, PGM_CLR]
+        [DATA_SET, DATA_CLR]
+
+    Funkcja zwraca:
+        -> Stałą WRONG_INDEX jeżeli podany w wywołaniu funkcji indeks jest spoza doswolonego zakresu.
+        -> Stałą CORRECT jeżeli funkcja została wykonana poprawnie
+*/
+int set_inbound_translation_attribute(crg_t* ptr, uint8_t index, uint32_t attribute)
+{
+    switch (index)
+    {
+        case SLAVE_0:  ptr->LCSR.ITAT0 = attribute;    break;
+        case SLAVE_1:  ptr->LCSR.ITAT1 = attribute;    break;
+        case SLAVE_2:  ptr->LCSR.ITAT2 = attribute;    break;
+        case SLAVE_3:  ptr->LCSR.ITAT3 = attribute;    break;
+        case SLAVE_4:  ptr->LCSR.ITAT4 = attribute;    break;
+        case SLAVE_5:  ptr->LCSR.ITAT5 = attribute;    break;
+        case SLAVE_6:  ptr->LCSR.ITAT6 = attribute;    break;
+        case SLAVE_7:  ptr->LCSR.ITAT7 = attribute;    break;
+        default:    return WRONG_INDEX;
+    }
+
+    return CORRECT;
+}
 
 
 
+/*
+    Funkcja włącza okno kanału VME Slave lub włącza kanał Master. Funkcjonalność
+    zależy od zadanego argumentu wejściowego index.
 
+    ptr ->  Wskaźnik na strukturę danych mapującą układ rejestrów pamięci mostka tsi148.
+            Do pól tej sstruktury będziemy się odwoływać aby ustawić wartości poszczególnych rejestrów.
+    index ->    Numer kanału slave lub master, który chcemy ustawić. Poprawne wartości ustawiane są za pomocą stałych z podanej listy:
+                [SLAVE_0, SLAVE_1, SLAVE_2, SLAVE_3, SLAVE_4, SLAVE_5, SLAVE_6, SLAVE_7,
+                MASTER_0, MASTER_1, MASTER_2, MASTER_3, MASTER_4, MASTER_5, MASTER_6, MASTER_7]    
+
+    Funkcja zwraca:
+        -> Stałą WRONG_INDEX jeżeli podany w wywołaniu funkcji indeks jest spoza doswolonego zakresu.
+        -> Stałą CORRECT jeżeli funkcja została wykonana poprawnie
+*/
 int set_enable(crg_t* ptr, uint8_t index)
 {
     uint32_t bufor;
@@ -377,6 +683,20 @@ int set_enable(crg_t* ptr, uint8_t index)
 
 
 
+/*
+    Funkcja wyłącza okno kanału VME Slave lub wyłącza kanał Master. Funkcjonalność
+    zależy od zadanego argumentu wejściowego index.
+
+    ptr ->  Wskaźnik na strukturę danych mapującą układ rejestrów pamięci mostka tsi148.
+            Do pól tej sstruktury będziemy się odwoływać aby ustawić wartości poszczególnych rejestrów.
+    index ->    Numer kanału slave lub master, który chcemy ustawić. Poprawne wartości ustawiane są za pomocą stałych z podanej listy:
+                [SLAVE_0, SLAVE_1, SLAVE_2, SLAVE_3, SLAVE_4, SLAVE_5, SLAVE_6, SLAVE_7,
+                MASTER_0, MASTER_1, MASTER_2, MASTER_3, MASTER_4, MASTER_5, MASTER_6, MASTER_7]    
+
+    Funkcja zwraca:
+        -> Stałą WRONG_INDEX jeżeli podany w wywołaniu funkcji indeks jest spoza doswolonego zakresu.
+        -> Stałą CORRECT jeżeli funkcja została wykonana poprawnie
+*/
 int clr_enable(crg_t* ptr, uint8_t index)
 {
     uint32_t bufor;
