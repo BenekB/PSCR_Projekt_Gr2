@@ -3,6 +3,12 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "tsi148.h"
+#include <inttypes.h>
+#include <sys/mman.h>
+
+// kończymy tym, że generujemy wirtualny wskaźnik do mastera
+// wygenerować wirtualny wskaźnik do mastera podobnie jak pierwsza grupa
+// korzystać z memory map device
 
 
 /*
@@ -12,17 +18,34 @@
 
 
 
-// tak żeby był main, na razie bez znaczenia
-int main()
+uint32_t change_endians32(uint32_t in)
 {
-    while(1)
-    {
+    uint32_t b0, b1, b2, b3;
+    uint32_t res;
 
-    }
+    b0 = (in & 0x000000ff) << 24u;
+    b1 = (in & 0x0000ff00) << 8u;
+    b2 = (in & 0x00ff0000) >> 8u;
+    b3 = (in & 0xff000000) >> 24u;
 
-    return 0;
+    res = b0 | b1 | b2 | b3;   
+
+    return res; 
 }
 
+
+uint16_t change_endians16(uint16_t in)
+{
+    uint16_t b0, b1;
+    uint16_t res;
+
+    b0 = (in & 0x00ff) << 8u;
+    b1 = (in & 0xff00) >> 8u;
+
+    res = b0 | b1;   
+
+    return res; 
+}
 
 
 /*
@@ -42,6 +65,9 @@ int main()
 */
 int set_outbound_translation_starting_address(crg_t* ptr, uint8_t index, uint32_t upper_address, uint16_t lower_address)
 {
+    // upper_address = change_endians32(upper_address);
+    // lower_address = change_endians16(lower_address);
+
     switch (index)
     {
         case MASTER_0:
@@ -110,6 +136,9 @@ int set_outbound_translation_starting_address(crg_t* ptr, uint8_t index, uint32_
 */
 int set_inbound_translation_starting_address(crg_t* ptr, uint8_t index, uint32_t upper_address, uint32_t lower_address)
 {
+    // upper_address = change_endians32(upper_address);
+    // lower_address = change_endians32(lower_address);
+
     switch (index)
     {
         case SLAVE_0:
@@ -189,6 +218,9 @@ int set_inbound_translation_starting_address(crg_t* ptr, uint8_t index, uint32_t
 */
 int set_outbound_translation_ending_address(crg_t* ptr, uint8_t index, uint32_t upper_address, uint16_t lower_address)
 {
+    // upper_address = change_endians32(upper_address);
+    // lower_address = change_endians16(lower_address);
+
     switch (index)
     {
         case MASTER_0:
@@ -257,6 +289,9 @@ int set_outbound_translation_ending_address(crg_t* ptr, uint8_t index, uint32_t 
 */
 int set_inbound_translation_ending_address(crg_t* ptr, uint8_t index, uint32_t upper_address, uint32_t lower_address)
 {
+    // upper_address = change_endians32(upper_address);
+    // lower_address = change_endians32(lower_address);
+
     switch (index)
     {
         case SLAVE_0:
@@ -337,6 +372,9 @@ int set_inbound_translation_ending_address(crg_t* ptr, uint8_t index, uint32_t u
 */
 int set_outbound_translation_offset(crg_t* ptr, uint8_t index, uint32_t upper_offset, uint16_t lower_offset)
 {
+    // upper_offset = change_endians32(upper_offset);
+    // lower_offset = change_endians16(lower_offset);
+
     switch (index)
     {
         case MASTER_0:
@@ -405,6 +443,9 @@ int set_outbound_translation_offset(crg_t* ptr, uint8_t index, uint32_t upper_of
 */
 int set_inbound_translation_offset(crg_t* ptr, uint8_t index, uint32_t upper_offset, uint32_t lower_offset)
 {
+    // upper_offset = change_endians32(upper_offset);
+    // lower_offset = change_endians32(lower_offset);
+
     switch (index)
     {
         case SLAVE_0:
@@ -480,6 +521,8 @@ int set_inbound_translation_offset(crg_t* ptr, uint8_t index, uint32_t upper_off
 */
 int set_outbound_translation_2eSST_broadcast_select(crg_t* ptr, uint8_t index, uint32_t broadcast_select_2eSST)
 {
+    // broadcast_select_2eSST = change_endians32(broadcast_select_2eSST);
+
     switch (index)
     {
         case MASTER_0:  ptr->LCSR.OTBS0 = broadcast_select_2eSST;   break;
@@ -493,9 +536,9 @@ int set_outbound_translation_2eSST_broadcast_select(crg_t* ptr, uint8_t index, u
         default:    return WRONG_INDEX;
     }
 
-
     return CORRECT;
 }
+
 
 
 
@@ -529,6 +572,8 @@ int set_outbound_translation_2eSST_broadcast_select(crg_t* ptr, uint8_t index, u
 */
 int set_outbound_translation_attribute(crg_t* ptr, uint8_t index, uint32_t attribute)
 {
+    // attribute = change_endians32(attribute);
+
     switch (index)
     {
         case MASTER_0:  ptr->LCSR.OTAT0 = attribute;    break;
@@ -584,6 +629,8 @@ int set_outbound_translation_attribute(crg_t* ptr, uint8_t index, uint32_t attri
 */
 int set_inbound_translation_attribute(crg_t* ptr, uint8_t index, uint32_t attribute)
 {
+    // attribute = change_endians32(attribute);
+
     switch (index)
     {
         case SLAVE_0:  ptr->LCSR.ITAT0 = attribute;    break;
@@ -758,7 +805,44 @@ int clr_enable(crg_t* ptr, uint8_t index)
 
 
 
+// tak żeby był main, na razie bez znaczenia
+int main()
+{
+    crg_t *ptr;
+    get_tsi148_ptr(ptr);
 
+    uint32_t master_upper_address = 0x0;
+    uint16_t master_lower_address = 0x0;
+
+    set_outbound_translation_starting_address(ptr, MASTER_0, master_upper_address, master_lower_address);
+
+    uint32_t master_upper_offset = 0x0;
+    uint16_t master_lower_offset = 0x0;
+
+    set_outbound_translation_offset(ptr, MASTER_0, master_upper_offset, master_lower_offset);
+
+    uint32_t master_attributes = 0x0;
+
+    set_outbound_translation_attribute(ptr, MASTER_0, master_attributes);
+
+    set_enable(ptr, MASTER_0);
+
+    void *master_virtual_address;
+    void *addr;
+    size_t len;
+    int prot = PROT_READ | PROT_WRITE | PROT_NOCACHE;
+    int flags;
+    uint64_t physical;
+
+    master_virtual_address = mmap_device_memory(addr, len, prot, flags, physical);
+
+    while(1)
+    {
+
+    }
+
+    return 0;
+}
 
 
 
