@@ -10,13 +10,13 @@
 
 #define     RESET_VALUE_32      0x00000000
     /* ^ 
-    Przypisanie tej wartości do zmiennej 32-bitowej powoduje ustawienie 
-    wszystkich jej bitów na 0.
+    Przypisanie tej wartoĹ›ci do zmiennej 32-bitowej powoduje ustawienie 
+    wszystkich jej bitĂłw na 0.
     */
 #define     RESET_VALUE_16      0x0000
     /* ^ 
-    Przypisanie tej wartości do zmiennej 16-bitowej powoduje ustawienie 
-    wszystkich jej bitów na 0.
+    Przypisanie tej wartoĹ›ci do zmiennej 16-bitowej powoduje ustawienie 
+    wszystkich jej bitĂłw na 0.
     */
 
 
@@ -40,8 +40,8 @@
 #define     MASTER_6        16
 #define     MASTER_7        17
     /* ^ 
-    Dostępnych jest 8 kanałów typu Master.
-    W wywołaniu funkcji zawsze musimy podać do którego się odnosimy.
+    DostÄ™pnych jest 8 kanaĹ‚Ăłw typu Master.
+    W wywoĹ‚aniu funkcji zawsze musimy podaÄ‡ do ktĂłrego siÄ™ odnosimy.
     */
 
 
@@ -55,39 +55,39 @@
 #define     SLAVE_6        26
 #define     SLAVE_7        27
     /* ^ 
-    Dostępnych jest 8 kanałów typu Slave.
-    W wywołaniu funkcji zawsze musimy podać do którego się odnosimy.
+    DostÄ™pnych jest 8 kanaĹ‚Ăłw typu Slave.
+    W wywoĹ‚aniu funkcji zawsze musimy podaÄ‡ do ktĂłrego siÄ™ odnosimy.
     */
 
 
 // OUTBOUND TRANSLATION ATTRIBUTES
     /* 
-    Aby otrzymać 32-bitową daną wpisywaną do rejestru atrybutów translacji
-    musimy wykonać operację sumy logicznej poniżej zdefiniowanych atrybutów.
-    Na przykład chcąc ustawić bit EN, szybkość transmicji na 160 MB/s oraz tryb
-    adresowania na A24 musimy wykonać następującą operację:
+    Aby otrzymaÄ‡ 32-bitowÄ… danÄ… wpisywanÄ… do rejestru atrybutĂłw translacji
+    musimy wykonaÄ‡ operacjÄ™ sumy logicznej poniĹĽej zdefiniowanych atrybutĂłw.
+    Na przykĹ‚ad chcÄ…c ustawiÄ‡ bit EN, szybkoĹ›Ä‡ transmicji na 160 MB/s oraz tryb
+    adresowania na A24 musimy wykonaÄ‡ nastÄ™pujÄ…cÄ… operacjÄ™:
         EN_SET | TR_RATE_160 | ADMODE_A24 
-    Następnie wynik powyższej sumy logicznej przekazać do funkcji ustawiającej
-    rejestr atrybutów translacji.
+    NastÄ™pnie wynik powyĹĽszej sumy logicznej przekazaÄ‡ do funkcji ustawiajÄ…cej
+    rejestr atrybutĂłw translacji.
     */
-#define     EN_SET      0b1 0000000000000000000000000000000
-#define     EN_CLR      0b0 0000000000000000000000000000000  
+#define     EN_SET      0b10000000000000000000000000000000
+#define     EN_CLR      0b00000000000000000000000000000000
     /* ^ 
     EN (Enable) 
     If set, the corresponding outbound translation function is enabled. 
     */
-#define     MRPFD_SET   0b0000000000000 1 000000000000000000
-#define     MRPFD_CLR   0b0000000000000 0 000000000000000000
+#define     MRPFD_SET   0b00000000000001000000000000000000
+#define     MRPFD_CLR   0b00000000000000000000000000000000
     /* ^ 
     MRPFD (Memory Read Prefetch Disable) 
     If set, prefetching is disabled for all memory read commands.
     If cleared, a cache line is prefetched when a PCI/X bus memory
     read burst is received. 
     */ 
-#define     PFS_2       0b00000000000000 00 0000000000000000
-#define     PFS_4       0b00000000000000 01 0000000000000000
-#define     PFS_8       0b00000000000000 10 0000000000000000
-#define     PFS_16      0b00000000000000 11 0000000000000000  
+#define     PFS_2       0b00000000000000000000000000000000
+#define     PFS_4       0b00000000000000010000000000000000
+#define     PFS_8       0b00000000000000100000000000000000
+#define     PFS_16      0b00000000000000110000000000000000
     /* ^ 
     PFS (Prefetch Size)
     This field sets the data read prefetch size for PCI/X bus read 
@@ -97,9 +97,9 @@
     PFS_8 -> 8 Cache Lines
     PFS_16 -> 16 Cache Lines
     */  
-#define     TR_RATE_160     0b000000000000000000 000 00000000000 
-#define     TR_RATE_267     0b000000000000000000 001 00000000000
-#define     TR_RATE_320     0b000000000000000000 010 00000000000   
+#define     TR_RATE_160     0b00000000000000000000000000000000
+#define     TR_RATE_267     0b00000000000000000000100000000000
+#define     TR_RATE_320     0b00000000000000000001000000000000
     /* ^ 
     2eSSTM (2eSST Mode)
     This field defines the 2eSST Transfer Rate
@@ -107,12 +107,12 @@
     TR_RATE_267 -> 267 MB/s
     TR_RATE_320 -> 320 MB/s
     */
-#define     TR_MODE_SCT         0b000000000000000000000 000 00000000
-#define     TR_MODE_BLT         0b000000000000000000000 001 00000000
-#define     TR_MODE_MBLT        0b000000000000000000000 010 00000000
-#define     TR_MODE_2eVME       0b000000000000000000000 011 00000000
-#define     TR_MODE_2eSST       0b000000000000000000000 100 00000000
-#define     TR_MODE_2eSST_BR    0b000000000000000000000 101 00000000
+#define     TR_MODE_SCT         0b00000000000000000000000000000000
+#define     TR_MODE_BLT         0b00000000000000000000000100000000
+#define     TR_MODE_MBLT        0b00000000000000000000001000000000
+#define     TR_MODE_2eVME       0b00000000000000000000001100000000
+#define     TR_MODE_2eSST       0b00000000000000000000010000000000
+#define     TR_MODE_2eSST_BR    0b00000000000000000000010100000000
     /* ^ 
     TM (Transfer Mode)
     The field defines the VMEbus transfer mode
@@ -123,8 +123,8 @@
     TR_MODE_2eSST -> 2eSST
     TR_MODE_2eSST_BR -> 2eSST Broadcast
     */
-#define     DBW_16      0b000000000000000000000000 00 000000
-#define     DBW_32      0b000000000000000000000000 01 000000
+#define     DBW_16      0b00000000000000000000000000000000
+#define     DBW_32      0b00000000000000000000000001000000
     /* ^ 
     DBW (VMEbus Data Bus Width)
     These bits define the maximum data bus width for VMEbus transfer
@@ -134,29 +134,29 @@
     DBW_16 -> 16 bit
     DBW_32 -> 32 bit
     */
-#define     SUP_SET     0b00000000000000000000000000 1 00000
-#define     SUP_CLR     0b00000000000000000000000000 0 00000
+#define     SUP_SET     0b00000000000000000000000000100000
+#define     SUP_CLR     0b00000000000000000000000000000000
     /* ^ 
     SUP (VMEbus Supervisory Mode)
     When this bit is set the AM code indicates Supervisory Access, when 
     required. When this bit is cleared
     */
-#define     PGM_SET     0b000000000000000000000000000 1 0000
-#define     PGM_CLR     0b000000000000000000000000000 0 0000
+#define     PGM_SET     0b00000000000000000000000000010000
+#define     PGM_CLR     0b00000000000000000000000000000000
     /* ^ 
     PGM (VMEbus Program Mode)
     When this bit is set the AM code indicates Program Access. When this
     bit is cleared the AM code indicates Data Access.
     */
-#define     ADMODE_A16      0b0000000000000000000000000000 0000
-#define     ADMODE_A24      0b0000000000000000000000000000 0001
-#define     ADMODE_A32      0b0000000000000000000000000000 0010
-#define     ADMODE_A64      0b0000000000000000000000000000 0100
-#define     ADMODE_CRCSR    0b0000000000000000000000000000 0101
-#define     ADMODE_USER1    0b0000000000000000000000000000 1000
-#define     ADMODE_USER2    0b0000000000000000000000000000 1001
-#define     ADMODE_USER3    0b0000000000000000000000000000 1010
-#define     ADMODE_USER4    0b0000000000000000000000000000 1011
+#define     ADMODE_A16      0b00000000000000000000000000000000
+#define     ADMODE_A24      0b00000000000000000000000000000001
+#define     ADMODE_A32      0b00000000000000000000000000000010
+#define     ADMODE_A64      0b00000000000000000000000000000100
+#define     ADMODE_CRCSR    0b00000000000000000000000000000101
+#define     ADMODE_USER1    0b00000000000000000000000000001000
+#define     ADMODE_USER2    0b00000000000000000000000000001001
+#define     ADMODE_USER3    0b00000000000000000000000000001010
+#define     ADMODE_USER4    0b00000000000000000000000000001011
     /* ^ 
     AMODE (Address Mode)
     This field defines the VMEbus Address mode.
@@ -171,32 +171,32 @@
 
 // INBOUND TRANSLATION ATTRIBUTES
     /* 
-    Aby otrzymać 32-bitową daną wpisywaną do rejestru atrybutów translacji
-    musimy wykonać operację sumy logicznej poniżej zdefiniowanych atrybutów.
-    Na przykład chcąc ustawić bit EN, rozmiar FIFO na 128 Bajtów oraz przestrzeń
-    adresowania na A24 musimy wykonać następującą operację:
+    Aby otrzymaÄ‡ 32-bitowÄ… danÄ… wpisywanÄ… do rejestru atrybutĂłw translacji
+    musimy wykonaÄ‡ operacjÄ™ sumy logicznej poniĹĽej zdefiniowanych atrybutĂłw.
+    Na przykĹ‚ad chcÄ…c ustawiÄ‡ bit EN, rozmiar FIFO na 128 BajtĂłw oraz przestrzeĹ„
+    adresowania na A24 musimy wykonaÄ‡ nastÄ™pujÄ…cÄ… operacjÄ™:
        SEN_SET | VFS_128 | AS_24 
-    Następnie wynik powyższej sumy logicznej przekazać do funkcji ustawiającej
-    rejestr atrybutów translacji.
+    NastÄ™pnie wynik powyĹĽszej sumy logicznej przekazaÄ‡ do funkcji ustawiajÄ…cej
+    rejestr atrybutĂłw translacji.
     */
-#define     SEN_SET     0b1 0000000000000000000000000000000
-#define     SEN_CLR     0b0 0000000000000000000000000000000  
+#define     SEN_SET     0b10000000000000000000000000000000
+#define     SEN_CLR     0b00000000000000000000000000000000
     /* ^ 
     EN (Enable) -> SEN (Slave Enable)
     If set, the corresponding VME Slave window is enabled. 
     */
-#define     TH_SET      0b0000000000000 1 000000000000000000
-#define     TH_CLR      0b0000000000000 0 000000000000000000
+#define     TH_SET      0b00000000000001000000000000000000
+#define     TH_CLR      0b00000000000000000000000000000000
     /* ^ 
     TH (Threshold) 
     This field sets a threshold for when read-ahead prefetching resumes. If set,
     prefetching resumes once the FIFO is half empty. If cleared, prefetching
     resumes once the FIFO is completely empty.
     */ 
-#define     VFS_64      0b00000000000000 00 0000000000000000
-#define     VFS_128     0b00000000000000 01 0000000000000000
-#define     VFS_256     0b00000000000000 10 0000000000000000
-#define     VFS_512     0b00000000000000 11 0000000000000000  
+#define     VFS_64      0b00000000000000000000000000000000
+#define     VFS_128     0b00000000000000010000000000000000
+#define     VFS_256     0b00000000000000100000000000000000
+#define     VFS_512     0b00000000000000110000000000000000
     /* ^ 
     VFS (Virtual FIFO Size)
     This field is used to set the FIFO size for inbound prefetch reads.
@@ -207,9 +207,9 @@
     VFS_256 -> 256 Bytes
     VFS_512 -> 512 Bytes
     */  
-#define     SST_160     0b000000000000000000 000 00000000000 
-#define     SST_267     0b000000000000000000 001 00000000000
-#define     SST_320     0b000000000000000000 010 00000000000   
+#define     SST_160     0b00000000000000000000000000000000
+#define     SST_267     0b00000000000000000000100000000000
+#define     SST_320     0b00000000000000000001000000000000
     /* ^ 
     2eSSTM (2eSST Mode)
     This flag define the 2eSST transfer rates the corresponding VME Slave responds to.
@@ -219,40 +219,40 @@
     SST_267 -> 267 MB/s
     SST_320 -> 320 MB/s
     */
-#define     eSSTB_SET       0b000000000000000000000 1 0000000000 
-#define     eSSTB_CLR       0b000000000000000000000 0 0000000000
+#define     eSSTB_SET       0b00000000000000000000010000000000
+#define     eSSTB_CLR       0b00000000000000000000000000000000
     /* ^ 
     2eSSTB
     If set, the corresponding VME Slave responds to 2eSST broadcast cycles.
     */
-#define     eSST_SET    0b0000000000000000000000 1 000000000 
-#define     eSST_CLR    0b0000000000000000000000 0 000000000
+#define     eSST_SET    0b00000000000000000000001000000000
+#define     eSST_CLR    0b00000000000000000000000000000000
     /* ^ 
     2eSST
     If set, the corresponding VME Slave responds to standard 2eSST cycles.
     */
-#define     eVME_SET    0b00000000000000000000000 1 00000000 
-#define     eVME_CLR    0b00000000000000000000000 0 00000000
+#define     eVME_SET    0b00000000000000000000000100000000
+#define     eVME_CLR    0b00000000000000000000000000000000
     /* ^ 
     2eVME
     If set, the corresponding VME Slave responds to 2eVME cycles.
     */
-#define     MBLT_SET    0b000000000000000000000000 1 0000000 
-#define     MBLT_CLR    0b000000000000000000000000 0 0000000
+#define     MBLT_SET    0b00000000000000000000000010000000
+#define     MBLT_CLR    0b00000000000000000000000000000000
     /* ^ 
     MBLT
     If set, the corresponding VME Slave responds to MBLT cycles.
     */
-#define     BLT_SET     0b0000000000000000000000000 1 000000 
-#define     BLT_CLR     0b0000000000000000000000000 0 000000
+#define     BLT_SET     0b00000000000000000000000001000000
+#define     BLT_CLR     0b00000000000000000000000000000000
     /* ^ 
     BLT
     If set, the corresponding VME Slave responds to BLT cycles.
     */
-#define     AS_16      0b0000000000000000000000000 000 0000
-#define     AS_24      0b0000000000000000000000000 001 0000
-#define     AS_32      0b0000000000000000000000000 010 0000
-#define     AS_64      0b0000000000000000000000000 100 0000
+#define     AS_16      0b00000000000000000000000000000000
+#define     AS_24      0b00000000000000000000000000010000
+#define     AS_32      0b00000000000000000000000000100000
+#define     AS_64      0b00000000000000000000000001000000
     /* ^ 
     AS (Address Space)
     These bits define the address space the corresponding VME Slave responds to.
@@ -261,29 +261,29 @@
     AS_32 -> Address Space A32
     AS_63 -> Address Space A64
     */
-#define     SUPR_SET    0b0000000000000000000000000000 1 000 
-#define     SUPR_CLR    0b0000000000000000000000000000 0 000
+#define     SUPR_SET    0b00000000000000000000000000001000
+#define     SUPR_CLR    0b00000000000000000000000000000000
     /* ^ 
     SUPR (Supervisor)
     If set, the corresponding VME Slave is enabled to respond to VMEbus
     supervisor access cycles. 
     */
-#define     NPRIV_SET       0b00000000000000000000000000000 1 00 
-#define     NPRIV_CLR       0b00000000000000000000000000000 0 00
+#define     NPRIV_SET       0b00000000000000000000000000000100
+#define     NPRIV_CLR       0b00000000000000000000000000000000
     /* ^ 
     NPRIV (Non-privileged)
     If set, the corresponding VME Slave is enabled to respond to
     non-privileged access cycles. 
     */
-#define     PGM_SET     0b000000000000000000000000000000 1 0 
-#define     PGM_CLR     0b000000000000000000000000000000 0 0
+#define     SPGM_SET     0b00000000000000000000000000000010
+#define     SPGM_CLR     0b00000000000000000000000000000000
     /* ^ 
     PGM (Program)
     If set, the corresponding VME Slave is enabled to respond to
     VMEbus program access cycles. 
     */
-#define     DATA_SET    0b0000000000000000000000000000000 1 
-#define     DATA_CLR    0b0000000000000000000000000000000 0
+#define     DATA_SET    0b00000000000000000000000000000001
+#define     DATA_CLR    0b00000000000000000000000000000000
     /* ^ 
     DATA (Data)
     If set, the corresponding VME Slave is enabled to respond to
@@ -291,5 +291,5 @@
     */
 
 
-
+// int set_outbound_translation_starting_address(crg_t*, (uint8_t), (uint32_t), (uint16_t));
 
