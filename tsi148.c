@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
-// #include <hw/pci.h>
-// #include <sys/mman.h>
+#include <hw/pci.h>
+#include <sys/mman.h>
 
 #include "tsi148.h"
 
@@ -11,23 +11,23 @@
  * Autorzy:
  * Rafal Osadnik 192239
  * Michal Koruszowic 192243
- * Natalia Rucińska 176285
+ * Natalia RuciĹ„ska 176285
  * */
 
 
 #define TSI148_CHKERR(error) if(error != PCI_SUCCESS){return error;} // Makro do obslugi bledow na magistrali PCI.
 
-int32_t get_tsi148_ptr(crg_t* ptr){
+crg_t *get_tsi148_ptr(){
 
 	/*
-	 * Funkcja wyszukuje mostka TSI148 na magistrali PCI, dokonuje ekstrakcji jego adresu sprz�towego
-	 * a nast�pnie generuje wska�nik wirtualny aby umo�liwic komunikacj� z procesorem.
+	 * Funkcja wyszukuje mostka TSI148 na magistrali PCI, dokonuje ekstrakcji jego adresu sprzďż˝towego
+	 * a nastďż˝pnie generuje wskaďż˝nik wirtualny aby umoďż˝liwic komunikacjďż˝ z procesorem.
 	 *
 	 * Parametry wejsciowe:
 	 *  - brak
 	 *
 	 *  Parametry wyjsciowe:
-	 *  ptr - wska�nik do obiektu o typie crg_t do kt�rego przypisany zostanie wygenerowany adres wirtualny.
+	 *  ptr - wskaďż˝nik do obiektu o typie crg_t do ktďż˝rego przypisany zostanie wygenerowany adres wirtualny.
 	 *
 	 *  Wartosc zwracana:
 	 *  - PCI_SUCCESS
@@ -88,13 +88,18 @@ int32_t get_tsi148_ptr(crg_t* ptr){
 
 		base_address &= ~0xFFF;
 
+		printf("\n%d\n", sizeof(crg_t));
+
+		crg_t *tmp;
+
         // http://www.qnx.com/developers/docs/6.5.0/index.jsp?topic=%2Fcom.qnx.doc.neutrino_lib_ref%2Fp%2Fpci_attach.html
         // Map a device's physical memory into a process's address space
-		*ptr = *((crg_t*)mmap_device_memory( 0, sizeof(crg_t), PROT_READ|PROT_WRITE|PROT_NOCACHE, 0,  base_address));
+		tmp = (crg_t*)mmap_device_memory( 0, sizeof(crg_t), PROT_READ|PROT_WRITE|PROT_NOCACHE, 0,  base_address);
+
 
 		pci_detach(0);
 
-		return PCI_SUCCESS;
+		return tmp;
 }
 
 
