@@ -291,5 +291,3 @@
     */
 
 
-// int set_outbound_translation_starting_address(crg_t*, (uint8_t), (uint32_t), (uint16_t));
-
