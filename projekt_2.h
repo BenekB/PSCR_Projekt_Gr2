@@ -10,13 +10,13 @@
 
 #define     RESET_VALUE_32      0x00000000
     /* ^ 
-    Przypisanie tej wartoĹ›ci do zmiennej 32-bitowej powoduje ustawienie 
-    wszystkich jej bitĂłw na 0.
+    Przypisanie tej wartości do zmiennej 32-bitowej powoduje ustawienie 
+    wszystkich jej bitów na 0.
     */
 #define     RESET_VALUE_16      0x0000
     /* ^ 
-    Przypisanie tej wartoĹ›ci do zmiennej 16-bitowej powoduje ustawienie 
-    wszystkich jej bitĂłw na 0.
+    Przypisanie tej wartości do zmiennej 16-bitowej powoduje ustawienie 
+    wszystkich jej bitów na 0.
     */
 
 
@@ -40,8 +40,8 @@
 #define     MASTER_6        16
 #define     MASTER_7        17
     /* ^ 
-    DostÄ™pnych jest 8 kanaĹ‚Ăłw typu Master.
-    W wywoĹ‚aniu funkcji zawsze musimy podaÄ‡ do ktĂłrego siÄ™ odnosimy.
+    Dostępnych jest 8 kanałów typu Master.
+    W wywołaniu funkcji zawsze musimy podać do którego się odnosimy.
     */
 
 
@@ -55,20 +55,20 @@
 #define     SLAVE_6        26
 #define     SLAVE_7        27
     /* ^ 
-    DostÄ™pnych jest 8 kanaĹ‚Ăłw typu Slave.
-    W wywoĹ‚aniu funkcji zawsze musimy podaÄ‡ do ktĂłrego siÄ™ odnosimy.
+    Dostępnych jest 8 kanałów typu Slave.
+    W wywołaniu funkcji zawsze musimy podać do którego się odnosimy.
     */
 
 
 // OUTBOUND TRANSLATION ATTRIBUTES
     /* 
-    Aby otrzymaÄ‡ 32-bitowÄ… danÄ… wpisywanÄ… do rejestru atrybutĂłw translacji
-    musimy wykonaÄ‡ operacjÄ™ sumy logicznej poniĹĽej zdefiniowanych atrybutĂłw.
-    Na przykĹ‚ad chcÄ…c ustawiÄ‡ bit EN, szybkoĹ›Ä‡ transmicji na 160 MB/s oraz tryb
-    adresowania na A24 musimy wykonaÄ‡ nastÄ™pujÄ…cÄ… operacjÄ™:
+    Aby otrzymać 32-bitową daną wpisywaną do rejestru atrybutów translacji
+    musimy wykonać operację sumy logicznej poniżej zdefiniowanych atrybutów.
+    Na przykład chcąc ustawić bit EN, szybkość transmicji na 160 MB/s oraz tryb
+    adresowania na A24 musimy wykonać następującą operację:
         EN_SET | TR_RATE_160 | ADMODE_A24 
-    NastÄ™pnie wynik powyĹĽszej sumy logicznej przekazaÄ‡ do funkcji ustawiajÄ…cej
-    rejestr atrybutĂłw translacji.
+    Następnie wynik powyższej sumy logicznej przekazać do funkcji ustawiającej
+    rejestr atrybutów translacji.
     */
 #define     EN_SET      0b10000000000000000000000000000000
 #define     EN_CLR      0b00000000000000000000000000000000
@@ -171,13 +171,13 @@
 
 // INBOUND TRANSLATION ATTRIBUTES
     /* 
-    Aby otrzymaÄ‡ 32-bitowÄ… danÄ… wpisywanÄ… do rejestru atrybutĂłw translacji
-    musimy wykonaÄ‡ operacjÄ™ sumy logicznej poniĹĽej zdefiniowanych atrybutĂłw.
-    Na przykĹ‚ad chcÄ…c ustawiÄ‡ bit EN, rozmiar FIFO na 128 BajtĂłw oraz przestrzeĹ„
-    adresowania na A24 musimy wykonaÄ‡ nastÄ™pujÄ…cÄ… operacjÄ™:
+    Aby otrzymać 32-bitową daną wpisywaną do rejestru atrybutów translacji
+    musimy wykonać operację sumy logicznej poniżej zdefiniowanych atrybutów.
+    Na przykład chcąc ustawić bit EN, rozmiar FIFO na 128 Bajtów oraz przestrzeń
+    adresowania na A24 musimy wykonać następującą operację:
        SEN_SET | VFS_128 | AS_24 
-    NastÄ™pnie wynik powyĹĽszej sumy logicznej przekazaÄ‡ do funkcji ustawiajÄ…cej
-    rejestr atrybutĂłw translacji.
+    Następnie wynik powyższej sumy logicznej przekazać do funkcji ustawiającej
+    rejestr atrybutów translacji.
     */
 #define     SEN_SET     0b10000000000000000000000000000000
 #define     SEN_CLR     0b00000000000000000000000000000000
